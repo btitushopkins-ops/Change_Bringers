@@ -26,11 +26,12 @@ for person_num in range(1, 37):  # 001 to 36
         wrist = parts[2]
         df = pd.read_csv(file_path, names=column_names, header=None, sep=',')
         df['person'] = person
-        df['task'] = task
+        df['task'] =
         df['wrist'] = wrist
         df['filename'] = base  # Add filename as a variable
         all_data.append(df)
 
 # Combine all into one DataFrame
 final_df = pd.concat(all_data, ignore_index=True)
+
 final_df.to_csv(r"C:\Users\18645\pads-parkinsons-disease-smartwatch-dataset-1.0.0\pads-parkinsons-disease-smartwatch-dataset-1.0.0\preprocessed\movement_data1-36.csv", index=False)
