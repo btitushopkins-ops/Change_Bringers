@@ -1,0 +1,100 @@
+import numpy as np
+import pandas as pd
+from sklearn.utils import class_weight
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Conv1D, MaxPooling1D, Flatten, Dense, Dropout
+from tensorflow.keras.callbacks import EarlyStopping
+from tensorflow.keras.utils import to_categorical
+
+# Step 1: Prepare input arrays
+X = np.stack([Entrainment_x, Entrainment_y, Entrainment_z], axis=-1)
+labels = df_Entrainment["ParkinsonsFlag"]
+y_encoded = to_categorical(labels)
+
+# Step 2: Compute class weights
+cw = class_weight.compute_class_weight(class_weight='balanced',
+                                       classes=np.unique(labels),
+                                       y=labels)
+cw_dict = dict(enumerate(cw))
+
+# Step 3: Define deep CNN builder
+def build_deep_cnn(input_shape, num_classes, dropout_rate=0.3):
+    model = Sequential()
+    model.add(Conv1D(filters=32, kernel_size=3, activation='relu', input_shape=input_shape))
+    model.add(Conv1D(filters=64, kernel_size=3, activation='relu'))
+    model.add(MaxPooling1D(pool_size=2))
+    model.add(Dropout(dropout_rate))
+    model.add(Flatten())
+    model.add(Dense(64, activation='relu'))
+    model.add(Dense(num_classes, activation='softmax'))
+    return model
+
+# Step 4: Train model
+early_stop = EarlyStopping(monitor='val_loss', patience=3, restore_best_weights=True)
+model = run_model_from_arrays(
+    x=Entrainment_x,
+    y=Entrainment_y,
+    z=Entrainment_z,
+    labels=labels,
+    model_name="Entrainment_r4_wghtd",
+    epochs=20,
+    batch_size=64,
+    validation_split=0.2,
+    dropout_rate=0.3,
+    optimizer='adam',
+    loss='categorical_crossentropy',
+    verbose=1,
+    callbacks=[early_stop],
+    custom_model_builder=build_deep_cnn
+)
+
+# Step 5: Predict probabilities
+y_probs = model.predict(X)
+parkinsons_probs = y_probs[:, 1]  # Probability of class 1
+
+# Step 6: Apply threshold to generate final predictions
+y_pred_thresh = (parkinsons_probs > 0.75).astype(int)
+
+
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+
+# Step 7: Compute and display confusion matrix
+cm = confusion_matrix(labels, y_pred_thresh)
+disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=["No Parkinson's", "Parkinson's"])
+disp.plot(cmap="Blues")
+plt.title("Confusion Matrix (Threshold = 0.75)")
+plt.tight_layout()
+plt.savefig("/tmp/confusion_matrix_r4.png")
+plt.show()
+
+# Step 8: ROC Curve + AUC
+from sklearn.metrics import roc_curve, auc
+import matplotlib.pyplot as plt
+
+# Compute ROC curve and AUC
+fpr, tpr, thresholds = roc_curve(labels, parkinsons_probs)
+roc_auc = auc(fpr, tpr)
+
+# Plot ROC curve
+plt.figure()
+plt.plot(fpr, tpr, color='darkorange', lw=2, label=f"ROC curve (AUC = {roc_auc:.2f})")
+plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')  # Diagonal line
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.title("Receiver Operating Characteristic (ROC)")
+plt.legend(loc="lower right")
+plt.grid(True)
+plt.tight_layout()
+plt.savefig("/tmp/roc_curve_r4.png")
+plt.show()
+
+metrics = {
+    "Threshold": [0.75],
+    "Accuracy": [(cm[0,0] + cm[1,1]) / cm.sum()],
+    "Sensitivity": [cm[1,1] / (cm[1,1] + cm[1,0])],
+    "Specificity": [cm[0,0] / (cm[0,0] + cm[0,1])],
+    "AUC": [roc_auc]
+}
+pd.DataFrame(metrics).to_csv("/tmp/metrics_summary_r4.csv", index=False)

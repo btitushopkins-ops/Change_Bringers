@@ -1,0 +1,179 @@
+import pandas as pd
+import numpy as np
+import os
+
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Conv1D, MaxPooling1D, Flatten, Dense, Dropout
+from tensorflow.keras.utils import to_categorical
+
+#  Loader function
+def load_task(task_name):
+    path1 = f"/tmp/jerk_xyz_{task_name}_part1.csv"
+    path2 = f"/tmp/jerk_xyz_{task_name}_part2.csv"
+
+    try:
+        df1 = pd.read_csv(path1)
+        df2 = pd.read_csv(path2)
+
+        if "ParkinsonsFlag" in df2.columns:
+            df2 = df2.drop(columns=["ParkinsonsFlag"])
+
+        df = pd.merge(df1, df2, on="id")
+        print(f"✅ Loaded and merged: {task_name} ({len(df)} rows, {df.shape[1]} columns)")
+        return df
+
+    except Exception as e:
+        print(f"❌ Failed to load {task_name}: {e}")
+        return None
+
+# Sort jerk columns by time step
+def sort_jerk_columns(df, axis):
+    cols = sorted(
+        [col for col in df.columns if col.startswith(f"jerk_{axis}_")],
+        key=lambda x: int(x.split("_")[-1])
+    )
+    return df[cols].values
+
+# Load  tasks
+df_CrossArms = load_task("CrossArms")
+CrossArms_x = sort_jerk_columns(df_CrossArms, "x")
+CrossArms_y = sort_jerk_columns(df_CrossArms, "y")
+CrossArms_z = sort_jerk_columns(df_CrossArms, "z")
+
+df_DrinkGlas = load_task("DrinkGlas")
+DrinkGlas_x = sort_jerk_columns(df_DrinkGlas, "x")
+DrinkGlas_y = sort_jerk_columns(df_DrinkGlas, "y")
+DrinkGlas_z = sort_jerk_columns(df_DrinkGlas,"z")
+
+df_Entrainment = load_task("Entrainment")
+Entrainment_x = sort_jerk_columns(df_Entrainment, "x")
+Entrainment_y = sort_jerk_columns(df_Entrainment, "y")
+Entrainment_z = sort_jerk_columns(df_Entrainment,"z")
+
+df_HoldWeight = load_task("HoldWeight")
+HoldWeight_x = sort_jerk_columns(df_HoldWeight, "x")
+HoldWeight_y = sort_jerk_columns(df_HoldWeight, "y")
+HoldWeight_z = sort_jerk_columns(df_HoldWeight,"z")
+
+df_LiftHold = load_task("LiftHold")
+LiftHold_x = sort_jerk_columns(df_LiftHold, "x")
+LiftHold_y = sort_jerk_columns(df_LiftHold, "y")
+LiftHold_z = sort_jerk_columns(df_LiftHold,"z")
+
+df_PointFinger = load_task("PointFinger")
+PointFinger_x = sort_jerk_columns(df_PointFinger, "x")
+PointFinger_y = sort_jerk_columns(df_PointFinger, "y")
+PointFinger_z = sort_jerk_columns(df_PointFinger,"z")
+
+df_Relaxed = load_task("Relaxed")
+Relaxed_x = sort_jerk_columns(df_Relaxed, "x")
+Relaxed_y = sort_jerk_columns(df_Relaxed, "y")
+Relaxed_z = sort_jerk_columns(df_Relaxed,"z")
+
+df_RelaxedTask = load_task("RelaxedTask")
+RelaxedTask_x = sort_jerk_columns(df_RelaxedTask, "x")
+RelaxedTask_y = sort_jerk_columns(df_RelaxedTask, "y")
+RelaxedTask_z = sort_jerk_columns(df_RelaxedTask,"z")
+
+df_StretchHold = load_task("StretchHold")
+StretchHold_x = sort_jerk_columns(df_StretchHold, "x")
+StretchHold_y = sort_jerk_columns(df_StretchHold, "y")
+StretchHold_z = sort_jerk_columns(df_StretchHold,"z")
+
+df_TouchIndex = load_task("TouchIndex")
+TouchIndex_x = sort_jerk_columns(df_TouchIndex, "x")
+TouchIndex_y = sort_jerk_columns(df_TouchIndex, "y")
+TouchIndex_z = sort_jerk_columns(df_TouchIndex,"z")
+
+df_TouchNose = load_task("TouchNose")
+TouchNose_x = sort_jerk_columns(df_TouchNose, "x")
+TouchNose_y = sort_jerk_columns(df_TouchNose, "y")
+TouchNose_z = sort_jerk_columns(df_TouchNose,"z")
+
+
+print(df_TouchNose.head())
+print(df_TouchNose["ParkinsonsFlag"].value_counts())
+df_TouchNose.info()
+
+def run_model_from_arrays(
+    jerk_x, jerk_y, jerk_z, labels, task_name,
+    epochs=20,
+    batch_size=32,
+    validation_split=0.1,
+    dropout_rate=0.3,
+    optimizer='adam',
+    loss='categorical_crossentropy',
+    verbose=0
+):
+    try:
+        # Stack jerk signals
+        X = np.stack([jerk_x, jerk_y, jerk_z], axis=-1)
+        y_encoded = to_categorical(labels)
+
+        print(f"📊 Running model for {task_name}")
+        print(f"🔧 Params — epochs: {epochs}, batch_size: {batch_size}, val_split: {validation_split}, dropout: {dropout_rate}")
+
+        # Build and compile model
+        model = Sequential([
+            Conv1D(64, kernel_size=5, activation='relu', input_shape=X.shape[1:]),
+            MaxPooling1D(pool_size=2),
+            Dropout(dropout_rate),
+            Flatten(),
+            Dense(64, activation='relu'),
+            Dense(2, activation='softmax')
+        ])
+        model.compile(optimizer=optimizer, loss=loss, metrics=['accuracy'])
+
+        # Train model
+        history = model.fit(X, y_encoded, epochs=epochs, batch_size=batch_size, validation_split=validation_split, verbose=verbose)
+        print(f"✅ Training complete for task: {task_name}")
+
+        # Save metrics
+        metrics_df = pd.DataFrame(history.history)
+        metrics_path = f"/tmp/model_metrics_{task_name}.csv"
+        metrics_df.to_csv(metrics_path, index=False)
+        print(f"📁 Metrics saved to: {metrics_path}")
+
+    except Exception as e:
+        print(f"❌ Error during model run for {task_name}: {e}")
+
+
+
+# Build full paths for part1 and part2 files
+files_to_delete = []
+for task in tasks:
+    files_to_delete.append(f"/tmp/jerk_xyz_{task}_part1.csv")
+    files_to_delete.append(f"/tmp/jerk_xyz_{task}_part2.csv")
+
+# Delete each file if it exists
+for file_path in files_to_delete:
+    if os.path.exists(file_path):
+        os.remove(file_path)
+        print(f"🗑️ Deleted: {file_path}")
+    else:
+        print(f"⚠️ File not found: {file_path}")
+
+run_model_from_arrays(CrossArms_x, CrossArms_y, CrossArms_z, df_CrossArms["ParkinsonsFlag"], "CrossArms", epochs=20, batch_size=64, validation_split=0.1, dropout_rate=0.3, optimizer='adam', loss='categorical_crossentropy', verbose=1)
+run_model_from_arrays(DrinkGlas_x, DrinkGlas_y, DrinkGlas_z, df_DrinkGlas["ParkinsonsFlag"], "DrinkGlas", epochs=20, batch_size=64, validation_split=0.1, dropout_rate=0.3, optimizer='adam', loss='categorical_crossentropy', verbose=1)
+run_model_from_arrays(Entrainment_x, Entrainment_y, Entrainment_z, df_Entrainment["ParkinsonsFlag"], "Entrainment", epochs=20, batch_size=64, validation_split=0.1, dropout_rate=0.3, optimizer='adam', loss='categorical_crossentropy', verbose=1)
+run_model_from_arrays(HoldWeight_x, HoldWeight_y, HoldWeight_z, df_HoldWeight["ParkinsonsFlag"], "HoldWeight", epochs=20, batch_size=64, validation_split=0.1, dropout_rate=0.3, optimizer='adam', loss='categorical_crossentropy', verbose=1)
+run_model_from_arrays(LiftHold_x, LiftHold_y, LiftHold_z, df_LiftHold["ParkinsonsFlag"], "LiftHold", epochs=20, batch_size=64, validation_split=0.1, dropout_rate=0.3, optimizer='adam', loss='categorical_crossentropy', verbose=1)
+run_model_from_arrays(PointFinger_x, PointFinger_y, PointFinger_z, df_PointFinger["ParkinsonsFlag"], "PointFinger", epochs=20, batch_size=64, validation_split=0.1, dropout_rate=0.3, optimizer='adam', loss='categorical_crossentropy', verbose=1)
+run_model_from_arrays(Relaxed_x, Relaxed_y, Relaxed_z, df_Relaxed["ParkinsonsFlag"], "Relaxed", epochs=20, batch_size=64, validation_split=0.1, dropout_rate=0.3, optimizer='adam', loss='categorical_crossentropy', verbose=1)
+run_model_from_arrays(RelaxedTask_x, RelaxedTask_y, RelaxedTask_z, df_RelaxedTask["ParkinsonsFlag"], "RelaxedTask", epochs=20, batch_size=64, validation_split=0.1, dropout_rate=0.3, optimizer='adam', loss='categorical_crossentropy', verbose=1)
+run_model_from_arrays(StretchHold_x, StretchHold_y, StretchHold_z, df_StretchHold["ParkinsonsFlag"], "StretchHold", epochs=20, batch_size=64, validation_split=0.1, dropout_rate=0.3, optimizer='adam', loss='categorical_crossentropy', verbose=1)
+run_model_from_arrays(TouchIndex_x, TouchIndex_y, TouchIndex_z, df_TouchIndex["ParkinsonsFlag"], "TouchIndex", epochs=20, batch_size=64, validation_split=0.1, dropout_rate=0.3, optimizer='adam', loss='categorical_crossentropy', verbose=1)
+run_model_from_arrays(TouchNose_x, TouchNose_y, TouchNose_z, df_TouchNose["ParkinsonsFlag"], "TouchNose", epochs=20, batch_size=64, validation_split=0.1, dropout_rate=0.3, optimizer='adam', loss='categorical_crossentropy', verbose=1)
+
+
+print("x:", Entrainment_x.shape)
+print("y:", Entrainment_y.shape)
+print("z:", Entrainment_z.shape)
+
+
+
+
+
+
+
+
