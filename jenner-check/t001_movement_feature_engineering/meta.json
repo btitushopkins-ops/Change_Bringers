@@ -1,0 +1,7 @@
+{
+  "bundle": "t001_movement_feature_engineering",
+  "source_file": "scripts/02 data cleaning.sas",
+  "source_blob_sha": "66a2139f8976c37595b7d34f40acf31b6026aa01",
+  "source_commit": "091136ac4facecae56cc2a4d286d5b2c69e6cecc",
+  "notes": "Feature-engineering DATA steps (clean_3/clean_4) from 02 data cleaning.sas: accel/gyro magnitude, jerk via lag/dt, SMA, RMS, pitch/roll via atan2+constant('PI'), directional jerk via retained lags, dominant_wrist. CAS public. libref redirected to WORK; mock 11-row accel/gyro time series supplied via autoexec datalines (sorted to the BY key). Logic preserved verbatim."
+}

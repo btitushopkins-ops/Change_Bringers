@@ -1,0 +1,7 @@
+{
+  "bundle": "t004_training_metrics_plot",
+  "source_file": "scripts/05 plot cnn models.sas",
+  "source_blob_sha": "c2e0fff7ac45349963a8138f33c941e7df895bb2",
+  "source_commit": "091136ac4facecae56cc2a4d286d5b2c69e6cecc",
+  "notes": "import_metrics (epoch=_N_) + plotter (PROC SGPLOT accuracy/loss series curves) macros from 05 plot cnn models.sas. PROC IMPORT of /tmp/model_metrics_<task>.csv replaced by an inline mock table with the same columns (accuracy/val_accuracy/loss/val_loss); the epoch-indexing DATA step and the exact SGPLOT series/xaxis/yaxis/keylegend statements are preserved. SGPLOT renders to an ODS graph."
+}

@@ -1,0 +1,13 @@
+{
+  "_captured_at": "2026-07-14T16:31:50Z",
+  "_captured_run_id": "r_ad6bd98ea25e46dfa3b15424910a2466",
+  "status": "ok",
+  "exit_code": 0,
+  "log_contains": [
+    "Wrote work.TouchNose (3 rows, 5 columns).",
+    "Wrote work.DrinkGlas (3 rows, 5 columns).",
+    "Wrote work.Entrainment (2 rows, 5 columns)."
+  ],
+  "log_does_not_contain": ["ERROR:", "[JENNER-ERROR"],
+  "diagnostics": {"parse_warnings": [], "runtime_warnings": []}
+}

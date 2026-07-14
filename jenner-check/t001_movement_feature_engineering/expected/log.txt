@@ -1,0 +1,40 @@
+NOTE: Jenner v1.5.30 (build v1.5.30+unknown.20260714T061458Z.x86_64-unknown-linux-gnu)
+
+NOTE: Option OBS changed to 100.
+NOTE: DATA work.clean_2
+
+NOTE: Processing inline DATALINES (11 lines)
+
+NOTE: Read 11 rows from DATALINES.
+NOTE: Wrote work.clean_2 (11 rows, 12 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: PROC SORT data=work.clean_2
+
+NOTE: Read 11 rows from work.clean_2.
+NOTE: Wrote work.clean_2 (11 rows, 12 columns).
+NOTE: PROC SORT statement used.
+NOTE: DATA work.clean_3
+
+
+NOTE: Read 11 rows from work.clean_2.
+NOTE: Wrote work.clean_3 (11 rows, 24 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: DATA work.clean_4
+
+
+NOTE: Read 11 rows from work.clean_3.
+NOTE: Wrote work.clean_4 (11 rows, 30 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: PROC CONTENTS data=work.clean_4
+
+NOTE: PROC CONTENTS completed: 11 observations, 30 variables
+NOTE: PROC MEANS
+NOTE: PROC MEANS statement used.
+NOTE: PROC MEANS
+NOTE: PROC MEANS statement used.

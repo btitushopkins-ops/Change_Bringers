@@ -1,0 +1,36 @@
+NOTE: Jenner v1.5.30 (build v1.5.30+unknown.20260714T061458Z.x86_64-unknown-linux-gnu)
+
+NOTE: Option OBS changed to 100.
+NOTE: DATA work.metrics_DrinkGlas_r1_raw
+
+NOTE: Processing inline DATALINES (6 lines)
+
+NOTE: Read 6 rows from DATALINES.
+NOTE: Wrote work.metrics_DrinkGlas_r1_raw (6 rows, 4 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: DATA metrics_DrinkGlas_r1
+
+
+NOTE: Read 6 rows from work.metrics_DrinkGlas_r1_raw.
+NOTE: Wrote metrics_DrinkGlas_r1 (6 rows, 5 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+MPRINT(PLOTTER):   proc sgplot data=metrics_DrinkGlas_r1;
+MPRINT(PLOTTER):   title "DrinkGlas - Accuracy and Loss (Round 1)";
+MPRINT(PLOTTER):   series x=epoch y=accuracy     / lineattrs=(color=blue pattern=solid)     legendlabel="Train Accuracy";
+MPRINT(PLOTTER):   series x=epoch y=val_accuracy / lineattrs=(color=blue pattern=shortdash) legendlabel="Val Accuracy";
+MPRINT(PLOTTER):   series x=epoch y=loss         / lineattrs=(color=red pattern=solid)      legendlabel="Train Loss";
+MPRINT(PLOTTER):   series x=epoch y=val_loss     / lineattrs=(color=red pattern=shortdash)  legendlabel="Val Loss";
+MPRINT(PLOTTER):   xaxis label="Epoch";
+MPRINT(PLOTTER):   yaxis label="Metric Value";
+MPRINT(PLOTTER):   keylegend / position=bottom;
+MPRINT(PLOTTER):   run;
+NOTE: PROC SGPLOT data=metrics_DrinkGlas_r1
+
+NOTE: PROC SGPLOT output written to: ./ods_output/sgplot.svg
+NOTE: PROC PRINT data=metrics_DrinkGlas_r1
+
+NOTE: PROC PRINT completed: 6 observations printed, 5 variables
