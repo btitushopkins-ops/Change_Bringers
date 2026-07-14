@@ -1,0 +1,27 @@
+
+PROC CONTENTS
+-------------------------------------------------------------------------------
+
+Data Set Name: work.TouchNose
+Observations:  3
+Variables:     5
+
+Variables (in alphabetical order):
+
+  #  Variable            Type    Len  Format  Label
+---  ------------------  ----  -----  ------  -----
+  1  Combined_Magnitude   Num      8          
+  2  id                  Char    200          
+  3  task                Char    200          
+  4  time_point           Num      8          
+  5  wrist               Char    200          
+
+-------------------------------------------------------------------------------
+
+
+  Obs   id       task       wrist  time_point  Combined_Magnitude
+-----  ---  ---------  ----------  ----------  ------------------
+    1  P01  DrinkGlas  LeftWrist           60                 1.1
+    2  P01  DrinkGlas  LeftWrist           61                1.22
+    3  H02  DrinkGlas  RightWrist          60                0.55
+

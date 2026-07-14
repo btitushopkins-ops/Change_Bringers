@@ -1,0 +1,72 @@
+
+PROC CONTENTS
+-------------------------------------------------------------------------------
+
+Data Set Name: work.clean_4
+Observations:  11
+Variables:     30
+
+Variables (in creation order):
+
+  #  Variable            Type    Len  Format    Label
+---  ------------------  ----  -----  --------  ----------------------------------------
+  1  lag_ax               Num      8            
+  2  lag_ay               Num      8            
+  3  lag_az               Num      8            
+  4  id                  Char    200            
+  5  task                Char    200            
+  6  wrist               Char    200            
+  7  handedness          Char    200            
+  8  condition           Char    200            
+  9  time_point           Num      8            
+ 10  Accelerometer_X      Num      8  BEST12.2  
+ 11  Accelerometer_Y      Num      8  BEST12.2  
+ 12  Accelerometer_Z      Num      8  BEST12.2  
+ 13  Gyroscope_X          Num      8  BEST12.1  
+ 14  Gyroscope_Y          Num      8  BEST12.1  
+ 15  Gyroscope_Z          Num      8  BEST12.1  
+ 16  Accel_Magnitude      Num      8            Accelerometer Vector Magnitude
+ 17  Gyro_Magnitude       Num      8            Gyroscope Vector Magnitude
+ 18  Combined_Magnitude   Num      8            Combined Sensor Magnitude (Accel + Gyro)
+ 19  dt                   Num      8            Time Delta Between Observations
+ 20  jerk                 Num      8            Rate of Change of Combined Magnitude (Jerk)
+ 21  sma_raw              Num      8            Signal Magnitude Area (Raw Accelerometer)
+ 22  rms                  Num      8            Root Mean Square of Accelerometer Axes
+ 23  pitch                Num      8            Pitch Angle (Radians)
+ 24  roll                 Num      8            Roll Angle (Radians)
+ 25  pitch_deg            Num      8            Pitch Angle (Degrees)
+ 26  roll_deg             Num      8            Roll Angle (Degrees)
+ 27  dominant_wrist       Num      8            
+ 28  jerk_x               Num      8            Directional Jerk X
+ 29  jerk_y               Num      8            Directional Jerk Y
+ 30  jerk_z               Num      8            Directional Jerk Z
+
+-------------------------------------------------------------------------------
+
+                                                  The MEANS Procedure
+
+ Variable            Label                                         N Miss        N        Minimum           Mean        Maximum        Std Dev
+ ---------------------------------------------------------------------------------------------------------------------------------------------
+ Accel_Magnitude     Accelerometer Vector Magnitude                     0       11      0.2934280      0.6555017      1.1138222      0.3204204
+ Gyro_Magnitude      Gyroscope Vector Magnitude                         0       11      0.2449490      0.8208529      1.4866069      0.4436447
+ Combined_Magnitude  Combined Sensor Magnitude (Accel + Gyro)           0       11      0.3910243      1.0543974      1.7664937      0.5388791
+ sma_raw             Signal Magnitude Area (Raw Accelerometer)          0       11      0.3500000      0.8490909      1.3400000      0.3791953
+ rms                 Root Mean Square of Accelerometer Axes             0       11      0.1694107      0.3784541      0.6430656      0.1849948
+ dt                  Time Delta Between Observations                    4        7     -2.0000000      0.1428571      1.0000000      1.4638501
+ jerk                Rate of Change of Combined Magnitude (Jerk)        4        7     -0.5660194     -0.0754456      0.2036100      0.2618106
+ pitch               Pitch Angle (Radians)                              0       11      0.9064314      1.2839993      1.4769228      0.2198296
+ roll                Roll Angle (Radians)                               0       11      0.4993467      0.9542684      1.1902899      0.2442368
+ pitch_deg           Pitch Angle (Degrees)                              0       11     51.9346960     73.5677430     84.6214441     12.5953068
+ roll_deg            Roll Angle (Degrees)                               0       11     28.6104597     54.6755513     68.1985905     13.9937390
+ dominant_wrist                                                         0       11      0.0000000      0.7272727      1.0000000      0.4670994
+ ---------------------------------------------------------------------------------------------------------------------------------------------
+
+                                                  The MEANS Procedure
+
+ Variable  Label                N Miss        N
+ ----------------------------------------------
+ jerk_x    Directional Jerk X        3        8
+ jerk_y    Directional Jerk Y        3        8
+ jerk_z    Directional Jerk Z        3        8
+ ----------------------------------------------
+

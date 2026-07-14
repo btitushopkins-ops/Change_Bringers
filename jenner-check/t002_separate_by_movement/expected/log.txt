@@ -1,0 +1,150 @@
+NOTE: Jenner v1.5.30 (build v1.5.30+unknown.20260714T061458Z.x86_64-unknown-linux-gnu)
+
+NOTE: Option OBS changed to 100.
+NOTE: DATA work.movement_clean
+
+NOTE: Processing inline DATALINES (12 lines)
+
+NOTE: Read 12 rows from DATALINES.
+NOTE: Wrote work.movement_clean (12 rows, 5 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+MPRINT(SEPARATE):   data work.CrossArms;
+MPRINT(SEPARATE):   set work.movement_clean;
+MPRINT(SEPARATE):   if task="CrossArms";
+MPRINT(SEPARATE):   run;
+MPRINT(SEPARATE):   data work.DrinkGlas;
+MPRINT(SEPARATE):   set work.movement_clean;
+MPRINT(SEPARATE):   if task="DrinkGlas";
+MPRINT(SEPARATE):   run;
+MPRINT(SEPARATE):   data work.Entrainment;
+MPRINT(SEPARATE):   set work.movement_clean;
+MPRINT(SEPARATE):   if task="Entrainment";
+MPRINT(SEPARATE):   run;
+MPRINT(SEPARATE):   data work.HoldWeight;
+MPRINT(SEPARATE):   set work.movement_clean;
+MPRINT(SEPARATE):   if task="HoldWeight";
+MPRINT(SEPARATE):   run;
+MPRINT(SEPARATE):   data work.LiftHold;
+MPRINT(SEPARATE):   set work.movement_clean;
+MPRINT(SEPARATE):   if task="LiftHold";
+MPRINT(SEPARATE):   run;
+MPRINT(SEPARATE):   data work.PointFinger;
+MPRINT(SEPARATE):   set work.movement_clean;
+MPRINT(SEPARATE):   if task="PointFinger";
+MPRINT(SEPARATE):   run;
+MPRINT(SEPARATE):   data work.Relaxed;
+MPRINT(SEPARATE):   set work.movement_clean;
+MPRINT(SEPARATE):   if task="Relaxed";
+MPRINT(SEPARATE):   run;
+MPRINT(SEPARATE):   data work.RelaxedTask;
+MPRINT(SEPARATE):   set work.movement_clean;
+MPRINT(SEPARATE):   if task="RelaxedTask";
+MPRINT(SEPARATE):   run;
+MPRINT(SEPARATE):   data work.StretchHold;
+MPRINT(SEPARATE):   set work.movement_clean;
+MPRINT(SEPARATE):   if task="StretchHold";
+MPRINT(SEPARATE):   run;
+MPRINT(SEPARATE):   data work.TouchIndex;
+MPRINT(SEPARATE):   set work.movement_clean;
+MPRINT(SEPARATE):   if task="TouchIndex";
+MPRINT(SEPARATE):   run;
+MPRINT(SEPARATE):   data work.TouchNose;
+MPRINT(SEPARATE):   set work.movement_clean;
+MPRINT(SEPARATE):   if task="TouchNose";
+MPRINT(SEPARATE):   run;
+NOTE: DATA work.CrossArms
+
+
+NOTE: Read 12 rows from work.movement_clean.
+NOTE: Wrote work.CrossArms (1 rows, 5 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: DATA work.DrinkGlas
+
+
+NOTE: Read 12 rows from work.movement_clean.
+NOTE: Wrote work.DrinkGlas (3 rows, 5 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: DATA work.Entrainment
+
+
+NOTE: Read 12 rows from work.movement_clean.
+NOTE: Wrote work.Entrainment (2 rows, 5 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: DATA work.HoldWeight
+
+
+NOTE: Read 12 rows from work.movement_clean.
+NOTE: Wrote work.HoldWeight (0 rows, 5 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: DATA work.LiftHold
+
+
+NOTE: Read 12 rows from work.movement_clean.
+NOTE: Wrote work.LiftHold (2 rows, 5 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: DATA work.PointFinger
+
+
+NOTE: Read 12 rows from work.movement_clean.
+NOTE: Wrote work.PointFinger (0 rows, 5 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: DATA work.Relaxed
+
+
+NOTE: Read 12 rows from work.movement_clean.
+NOTE: Wrote work.Relaxed (1 rows, 5 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: DATA work.RelaxedTask
+
+
+NOTE: Read 12 rows from work.movement_clean.
+NOTE: Wrote work.RelaxedTask (0 rows, 5 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: DATA work.StretchHold
+
+
+NOTE: Read 12 rows from work.movement_clean.
+NOTE: Wrote work.StretchHold (0 rows, 5 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: DATA work.TouchIndex
+
+
+NOTE: Read 12 rows from work.movement_clean.
+NOTE: Wrote work.TouchIndex (0 rows, 5 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: DATA work.TouchNose
+
+
+NOTE: Read 12 rows from work.movement_clean.
+NOTE: Wrote work.TouchNose (3 rows, 5 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: PROC CONTENTS data=work.TouchNose
+
+NOTE: PROC CONTENTS completed: 3 observations, 5 variables
+NOTE: PROC PRINT data=work.DrinkGlas
+
+NOTE: PROC PRINT completed: 3 observations printed, 5 variables

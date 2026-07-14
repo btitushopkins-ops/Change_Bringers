@@ -1,0 +1,7 @@
+{
+  "bundle": "t002_separate_by_movement",
+  "source_file": "scripts/02 data cleaning.sas",
+  "source_blob_sha": "66a2139f8976c37595b7d34f40acf31b6026aa01",
+  "source_commit": "091136ac4facecae56cc2a4d286d5b2c69e6cecc",
+  "notes": "The %separate macro from 02 data cleaning.sas: loops the 11-token &movement list with %sysfunc(countw())/%scan and creates one WORK subset per movement via a per-task DATA step. Macro + DATA step preserved; CAS public. libref -> WORK, CAS-only dropTable dropped. Mock movement_clean supplied via autoexec datalines."
+}

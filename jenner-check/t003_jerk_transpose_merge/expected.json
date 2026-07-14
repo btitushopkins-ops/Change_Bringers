@@ -1,0 +1,12 @@
+{
+  "_captured_at": "2026-07-14T16:29:02Z",
+  "_captured_run_id": "r_b2f29f02ed884743b9eabb7284d79feb",
+  "status": "ok",
+  "exit_code": 0,
+  "log_contains": [
+    "PROC TRANSPOSE data=work.Entrainment_dom_2g",
+    "Wrote work.jerk_xyz_Entrainment0 (2 rows, 11 columns)."
+  ],
+  "log_does_not_contain": ["ERROR:", "[JENNER-ERROR"],
+  "diagnostics": {"parse_warnings": [], "runtime_warnings": []}
+}

@@ -1,0 +1,7 @@
+{
+  "bundle": "t003_jerk_transpose_merge",
+  "source_file": "scripts/03 jerk_xyz_exporter.sas",
+  "source_blob_sha": "96156b7614a55359359fbd85d5b430aa413068c4",
+  "source_commit": "091136ac4facecae56cc2a4d286d5b2c69e6cecc",
+  "notes": "Transpose+merge core of the transpose_jerk macro from 03 jerk_xyz_exporter.sas: proc transpose (by id, var jerk_x/y/z, id time_point, prefix=) reshapes long directional jerk to wide per-id columns, then merges x/y/z by id. Author's distinct-time-point and distinct-id proc sql checks kept. CAS public. libref -> WORK; mock Entrainment_dom_2g via autoexec datalines (sorted by id time_point for proc transpose)."
+}
